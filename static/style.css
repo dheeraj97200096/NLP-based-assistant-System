@@ -1,0 +1,92 @@
+/* Full-screen dark modern background */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0d0d0d, #1c1c1c);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+/* Center container */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Header styling */
+header h1 {
+    font-size: 3em;   /* bigger font */
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Rounded search box */
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1f1f1f;
+    border-radius: 50px;   /* fully rounded */
+    padding: 10px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+/* Input styling */
+input {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    outline: none;
+    background: #2a2a2a;
+    color: #fff;
+}
+input::placeholder {
+    color: #888;
+}
+
+/* Buttons */
+button {
+    margin-left: 10px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Submit button */
+button[type="submit"] {
+    background: #00d9ff;
+    color: #000;
+}
+button[type="submit"]:hover {
+    background: #00a6cc;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Voice button */
+.voice-btn {
+    background: #ff00c8;
+    color: #fff;
+}
+.voice-btn:hover {
+    background: #cc009f;
+    transform: scale(1.05);
+}
+
+/* Response box */
+.response-box {
+    margin-top: 30px;
+    font-size: 1.2em;
+    color: #fff;
+    min-height: 50px;
+}
