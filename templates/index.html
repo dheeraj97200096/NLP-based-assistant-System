@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Query Resolution Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>What's on the agenda today?</h1>
+        </header>
+
+        <main>
+            <form id="queryForm" class="search-box">
+                <input type="text" id="queryInput" placeholder="Ask anything..." required>
+                <button type="submit">Submit</button>
+                <button type="button" class="voice-btn">🎤 Voice</button>
+            </form>
+
+            <div id="response" class="response-box"></div>
+        </main>
+    </div>
+
+    <script>
+// Handle text query
+document.getElementById("queryForm").onsubmit = async function(e) {
+    e.preventDefault();
+    let query = document.getElementById("queryInput").value;
+    let res = await fetch("/query", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({query: query})
+    });
+    let data = await res.json();
+    document.getElementById("response").innerHTML = 
+        `<strong>Response:</strong> ${data.response}<br>
+         <small>Latency: ${data.latency}s</small>`;
+};
+
+// Handle voice query
+document.querySelector(".voice-btn").onclick = async function() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        let chunks = [];
+
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        mediaRecorder.onstop = async () => {
+            const blob = new Blob(chunks, { type: 'audio/wav' });
+            const formData = new FormData();
+            formData.append("file", blob, "voice.wav");
+
+            let res = await fetch("/voice-query", {
+                method: "POST",
+                body: formData
+            });
+            let data = await res.json();
+            document.getElementById("response").innerHTML = 
+                `<strong>Voice Response:</strong> ${data.response}`;
+        };
+
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 4000); // record 4 seconds
+    } catch (err) {
+        alert("Microphone access denied or not available.");
+    }
+};
+</script>
+
+</body>
+</html>
